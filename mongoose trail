@@ -1,0 +1,108 @@
+const mongoose = require('mongoose');
+
+// Connection URL
+
+  mongoose.connect('mongodb://localhost:27017/fruitsDB',{useNewUrlParser: true});
+
+const fruitSchema = new mongoose.Schema({
+name : {
+  type : String ,
+required : [true,"No name specified"]
+} ,
+rating : {
+  type:Number ,
+min :1,
+max :10
+},
+review : String
+});
+
+const Fruit = mongoose.model("Fruit", fruitSchema);
+
+
+const fruit = new Fruit ({
+// name : "apple",
+rating : 1,
+review : " awsome "
+
+});
+
+const kiwi = new Fruit ({
+name : "kiwi",
+rating : 5,
+review : " good "
+
+});
+const orange = new Fruit ({
+name : "orange",
+rating : 10,
+review : " great "
+
+});
+const banana = new Fruit ({
+name : "banana",
+rating : 7,
+review : " great "
+
+});
+
+
+fruit.save();
+
+
+// Fruit.insertMany([fruit],function(err){
+//   if(err){
+//     console.log(err);
+//   }else {
+//     console.log(" successfully added all fruits ");
+//   }
+// });
+// fruit.save();
+
+const personSchema = new mongoose.Schema({
+name : String ,
+age : Number ,
+
+});
+
+const Person = mongoose.model("Person", personSchema);
+
+
+const person = new Person ({
+name : "john",
+rating : 47,
+
+
+});
+
+ // person.save();
+ // Fruit.deleteOne({name:"banana"},function(err){
+ //   if (err) {
+ //     console.log(err);
+ //
+ //   }else {
+ //     console.log("sucess");
+ //   }
+ // })
+
+ Fruit.updateOne({ _id : "619cab8a1be286284c4b009c"},{name :"peach"},function(err){
+   if (err) {
+     console.log(err);
+
+   }else {
+     console.log("sucess");
+   }
+ });
+
+ Fruit.find(function(err, fruits){
+    if(err){
+    console.log(err);
+    } else {
+
+        mongoose.connection.close();
+
+        fruits.forEach(function(fruit){
+        console.log(fruit.name);
+        });
+   }
+});
